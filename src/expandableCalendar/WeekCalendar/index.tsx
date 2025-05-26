@@ -1,5 +1,5 @@
 import XDate from 'xdate';
-import React, {useCallback, useContext, useMemo, useRef, useState} from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState, useEffect } from 'react';
 import {FlatList, View, ViewToken} from 'react-native';
 import {sameWeek, onSameDateRange, getWeekDates} from '../../dateutils';
 import {toMarkingFormat} from '../../interface';
@@ -56,6 +56,10 @@ const WeekCalendar = (props: WeekCalendarProps) => {
     visibleWeek.current = date;
     list?.current?.scrollToIndex({index: NUMBER_OF_PAGES, animated: false});
   }, [numberOfDays]);
+
+  useEffect(() => {
+    style.current = styleConstructor(theme);
+  }, [theme]);
 
   useDidUpdate(() => {
     if (updateSource !== UpdateSources.WEEK_SCROLL) {

@@ -156,6 +156,10 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
   }, [items]);
 
   useEffect(() => {
+    style.current = styleConstructor(theme);
+  }, [theme]);
+
+  useEffect(() => {
     if (current) {
       scrollToMonth(new XDate(current));
     }

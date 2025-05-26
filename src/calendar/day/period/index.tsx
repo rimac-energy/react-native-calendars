@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useRef, useMemo} from 'react';
+import React, {useCallback, useRef, useMemo, useEffect} from 'react';
 import {TouchableWithoutFeedback, TouchableOpacity, Text, View, ViewStyle, ViewProps, TextStyle, StyleProp} from 'react-native';
 import {xdateToData} from '../../../interface';
 import {Theme, DayState, DateData} from '../../../types';
@@ -179,6 +179,10 @@ const PeriodDay = (props: PeriodDayProps) => {
   const _onLongPress = useCallback(() => {
     onLongPress?.(dateData);
   }, [onLongPress, date]);
+
+  useEffect(() => {
+    style.current = styleConstructor(theme);
+  }, [theme]);
 
   const renderFillers = () => {
     if (marking) {
