@@ -1,0 +1,28 @@
+name: PR Validation
+
+on:
+    pull_request:
+        branches:
+            - master
+            - alpha
+            - beta
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    build-lint:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: 🚐 Checkout repository
+                uses: actions/checkout@v4
+
+            -   name: ⚙️ Setup project
+                uses: ./.github/actions/setup
+
+            -   name: 🔨 Build
+                run: yarn build
+
+            -   name: 🔨 Lint
+                run: yarn lint

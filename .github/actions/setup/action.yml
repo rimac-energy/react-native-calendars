@@ -1,0 +1,14 @@
+name: Setup Project
+description: Sets up Node.js, Yarn and installs dependencies
+runs:
+    using: 'composite'
+    steps:
+        -   name: 🏗️ Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: 22.x
+                cache: yarn
+
+        -   name: 📦 Install dependencies
+            shell: bash
+            run: yarn install
