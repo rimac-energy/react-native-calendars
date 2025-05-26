@@ -1,5 +1,11 @@
 # @rimac-technology/react-native-calendars
 
+## 1.22.3
+
+### Patch Changes
+
+- [`9f28a95`](https://github.com/rimac-energy/react-native-calendars/commit/9f28a95b0396fdf7a487e68b2262ade4548134ed) Thanks [@dgrahovac](https://github.com/dgrahovac)! - Remove useRef from styles
+
 ## 1.22.2
 
 ### Patch Changes
