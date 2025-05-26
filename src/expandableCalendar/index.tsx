@@ -584,7 +584,7 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
           {...others}
           allowShadow={disableWeekScroll ? undefined : false}
           current={disableWeekScroll ? date : undefined}
-          theme={themeObject}
+          theme={{ ...themeObject }}
           style={calendarStyle}
           hideDayNames={true}
           onDayPress={_onDayPress}
@@ -605,7 +605,7 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
         onHeaderLayout={onHeaderLayout}
         {...others}
         current={date}
-        theme={themeObject}
+        theme={{ ...themeObject }}
         ref={calendarList}
         onDayPress={_onDayPress}
         onVisibleMonthsChange={onVisibleMonthsChange}
@@ -631,7 +631,7 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
         <Calendar
           testID={`${testID}.calendarAccessible`}
           {...others}
-          theme={themeObject}
+          theme={{ ...themeObject }}
           onHeaderLayout={onHeaderLayout}
           onDayPress={_onDayPress}
           hideExtraDays

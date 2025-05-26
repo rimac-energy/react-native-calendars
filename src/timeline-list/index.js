@@ -88,7 +88,7 @@ const TimelineList = (props) => {
           {/* NOTE: Keeping this for easy debugging */}
           {/* <Text style={{position: 'absolute'}}>{item}</Text>*/}
         </>);
-    }, [events, timelineOffset, showNowIndicator, numberOfDays]);
+    }, [events, timelineOffset, showNowIndicator, numberOfDays, timelineProps?.theme]);
     return (<InfiniteList isHorizontal ref={listRef} data={pages} renderItem={renderPage} onPageChange={onPageChange} onReachNearEdge={onReachNearEdge} onReachNearEdgeThreshold={NEAR_EDGE_THRESHOLD} onScroll={onScroll} extendedState={{ todayEvents: events[date], pages }} initialOffset={initialOffset} scrollViewProps={{
             onMomentumScrollEnd
         }}/>);

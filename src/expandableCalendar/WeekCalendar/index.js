@@ -86,9 +86,7 @@ const WeekCalendar = (props) => {
             };
         }, {});
     }, []);
-    const weekStyle = useMemo(() => {
-        return [{ width: containerWidth }, propsStyle];
-    }, [containerWidth, propsStyle]);
+    const weekStyle = [{ width: containerWidth }, propsStyle];
     const renderItem = useCallback(({ item }) => {
         const currentContext = sameWeek(date, item, firstDay) ? context : undefined;
         const markings = getCurrentWeekMarkings(item, markedDates);

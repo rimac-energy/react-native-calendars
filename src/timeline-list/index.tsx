@@ -148,7 +148,7 @@ const TimelineList = (props: TimelineListProps) => {
         </>
       );
     },
-    [events, timelineOffset, showNowIndicator, numberOfDays]
+    [events, timelineOffset, showNowIndicator, numberOfDays, timelineProps?.theme]
   );
 
   return (
