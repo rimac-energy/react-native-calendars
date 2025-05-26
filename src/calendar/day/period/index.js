@@ -60,7 +60,7 @@ const PeriodDay = (props) => {
             }
             return defaultStyle;
         }
-    }, [marking]);
+    }, [style, marking]);
     const containerStyle = useMemo(() => {
         const containerStyle = [style.base];
         if (isToday) {
@@ -85,7 +85,7 @@ const PeriodDay = (props) => {
             }
         }
         return containerStyle;
-    }, [marking, isDisabled, isInactive, isToday]);
+    }, [style, marking, isDisabled, isInactive, isToday]);
     const textStyle = useMemo(() => {
         const textStyle = [style.text];
         if (isDisabled) {
@@ -103,7 +103,7 @@ const PeriodDay = (props) => {
             }
         }
         return textStyle;
-    }, [marking, isDisabled, isInactive, isToday]);
+    }, [style, marking, isDisabled, isInactive, isToday]);
     const fillerStyles = useMemo(() => {
         const leftFillerStyle = { backgroundColor: undefined };
         const rightFillerStyle = { backgroundColor: undefined };
@@ -122,7 +122,7 @@ const PeriodDay = (props) => {
             fillerStyle = { backgroundColor: markingStyle.day?.backgroundColor };
         }
         return { leftFillerStyle, rightFillerStyle, fillerStyle };
-    }, [marking]);
+    }, [style, marking]);
     const _onPress = useCallback(() => {
         onPress?.(dateData);
     }, [onPress, date]);

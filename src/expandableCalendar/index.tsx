@@ -260,19 +260,19 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
         paddingRight: isNumber(rightPaddings) ? rightPaddings + 6 : DAY_NAMES_PADDING
       }
     ];
-  }, [calendarStyle]);
+  }, [style, calendarStyle]);
 
   const animatedHeaderStyle = useMemo(() => {
     return [style.header, {height: headerHeight, top: headerDeltaY.current}];
-  }, [headerDeltaY.current, headerHeight]);
+  }, [style, headerDeltaY.current, headerHeight]);
 
   const weekCalendarStyle = useMemo(() => {
     return [style.weekContainer, isOpen ? style.hidden : style.visible, {top: headerHeight}];
-  }, [isOpen, headerHeight]);
+  }, [style, isOpen, headerHeight]);
 
   const containerStyle = useMemo(() => {
     return [allowShadow && style.containerShadow, propsStyle, headerHeight === 0  && style.hidden, {overflow: 'hidden'} as const];
-  }, [allowShadow, propsStyle, headerHeight]);
+  }, [style, allowShadow, propsStyle, headerHeight]);
 
   const wrapperStyle = useMemo(() => {
     return {height: deltaY};

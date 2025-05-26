@@ -146,7 +146,7 @@ const AgendaList = forwardRef((props, ref) => {
         setDisabled?.(false);
         onMomentumScrollEnd?.(event);
     }, [onMomentumScrollEnd, setDisabled]);
-    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
+    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [style, sectionStyle]);
     const _onScrollToIndexFailed = useCallback((info) => {
         if (onScrollToIndexFailed) {
             onScrollToIndexFailed(info);

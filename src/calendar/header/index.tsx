@@ -120,19 +120,19 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
   const style = styleConstructor(theme)
   const headerStyle = useMemo(() => {
     return [style.header, numberOfDaysCondition ? style.partialHeader : undefined];
-  }, [numberOfDaysCondition]);
+  }, [style, numberOfDaysCondition]);
   const partialWeekStyle = useMemo(() => {
     return [style.partialWeek, {paddingLeft: timelineLeftInset}];
-  }, [timelineLeftInset]);
+  }, [style, timelineLeftInset]);
   const dayNamesStyle = useMemo(() => {
     return [style.week, numberOfDaysCondition ? partialWeekStyle : undefined];
-  }, [numberOfDaysCondition, partialWeekStyle]);
+  }, [style, numberOfDaysCondition, partialWeekStyle]);
   const hitSlop: Insets | undefined = useMemo(
     () =>
       typeof arrowsHitSlop === 'number'
         ? {top: arrowsHitSlop, left: arrowsHitSlop, bottom: arrowsHitSlop, right: arrowsHitSlop}
         : arrowsHitSlop,
-    [arrowsHitSlop]
+    [style, arrowsHitSlop]
   );
   
   useImperativeHandle(ref, () => ({
@@ -198,7 +198,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
         </Text>
       );
     });
-  }, [firstDay, current, numberOfDaysCondition, numberOfDays, disabledDaysIndexes]);
+  }, [style, firstDay, current, numberOfDaysCondition, numberOfDays, disabledDaysIndexes]);
 
   const _renderHeader = () => {
     const webProps = Platform.OS === 'web' ? {'aria-level': webAriaLevel} : {};

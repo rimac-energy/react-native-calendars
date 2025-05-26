@@ -97,16 +97,16 @@ const WeekCalendar = (props) => {
     const keyExtractor = useCallback((item) => item, []);
     const renderWeekDaysNames = useMemo(() => {
         return (<WeekDaysNames firstDay={firstDay} style={style.dayHeader}/>);
-    }, [firstDay]);
+    }, [style, firstDay]);
     const weekCalendarStyle = useMemo(() => {
         return [
             allowShadow && style.containerShadow,
             !hideDayNames && style.containerWrapper
         ];
-    }, [allowShadow, hideDayNames]);
+    }, [style, allowShadow, hideDayNames]);
     const containerStyle = useMemo(() => {
         return [style.week, style.weekCalendar];
-    }, []);
+    }, [style]);
     const getItemLayout = useCallback((_, index) => {
         return {
             length: containerWidth,

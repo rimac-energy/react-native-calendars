@@ -137,11 +137,11 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
 
   const staticHeaderStyle = useMemo(() => {
     return [style.staticHeader, headerStyle];
-  }, [headerStyle]);
+  }, [style, headerStyle]);
 
   const listStyle = useMemo(() => {
     return [style.container, propsStyle];
-  }, [propsStyle]);
+  }, [style, propsStyle]);
 
   const initialDateIndex = useMemo(() => {
     return findIndex(items, function(item) {

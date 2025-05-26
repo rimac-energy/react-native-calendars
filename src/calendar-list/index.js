@@ -70,10 +70,10 @@ const CalendarList = (props, ref) => {
     }, [pastScrollRange, futureScrollRange]);
     const staticHeaderStyle = useMemo(() => {
         return [style.staticHeader, headerStyle];
-    }, [headerStyle]);
+    }, [style, headerStyle]);
     const listStyle = useMemo(() => {
         return [style.container, propsStyle];
-    }, [propsStyle]);
+    }, [style, propsStyle]);
     const initialDateIndex = useMemo(() => {
         return findIndex(items, function (item) {
             return item.toString() === initialDate.current?.toString();

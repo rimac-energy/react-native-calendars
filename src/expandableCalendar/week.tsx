@@ -51,7 +51,7 @@ const Week = React.memo((props: WeekProps) => {
 
   const partialWeekStyle = useMemo(() => {
     return [style.partialWeek, {paddingLeft: timelineLeftInset}];
-  }, [timelineLeftInset]);
+  }, [style, timelineLeftInset]);
 
   const dayProps = extractDayProps(props);
   const currXdate = useMemo(() => parseDate(current), [current]);

@@ -46,11 +46,11 @@ const CalendarListItem = React.memo((props: CalendarListItemProps) => {
       style.calendar,
       propsStyle
     ];
-  }, [calendarWidth, calendarHeight, propsStyle]);
+  }, [style, calendarWidth, calendarHeight, propsStyle]);
   
   const textStyle = useMemo(() => {
     return [calendarStyle, style.placeholderText];
-  }, [calendarStyle]);
+  }, [style, calendarStyle]);
   
   const _onPressArrowLeft = useCallback((method: () => void, month?: XDate) => {
     const monthClone = month?.clone();

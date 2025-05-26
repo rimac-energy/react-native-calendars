@@ -52,7 +52,7 @@ const CalendarList = (props: CalendarListProps) => {
   const headerProps = extractHeaderProps(props);
   const staticHeaderStyle = useMemo(() => {
     return [style.staticHeader, calendarProps?.headerStyle];
-  }, [calendarProps?.headerStyle]);
+  }, [style, calendarProps?.headerStyle]);
 
   useEffect(() => {
     scrollToMonth(currentMonth);
@@ -195,7 +195,7 @@ const CalendarList = (props: CalendarListProps) => {
         // context={context}
       />
     );
-  }, [calendarProps, scrollToNextMonth, scrollToPreviousMonth]);
+  }, [style, calendarProps, scrollToNextMonth, scrollToPreviousMonth]);
 
   return (
     <View style={listContainerStyle}>

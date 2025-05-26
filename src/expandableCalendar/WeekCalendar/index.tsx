@@ -142,18 +142,18 @@ const WeekCalendar = (props: WeekCalendarProps) => {
         style={style.dayHeader}
       />
     );
-  },[firstDay]);
+  },[style, firstDay]);
 
   const weekCalendarStyle = useMemo(() => {
     return [
       allowShadow && style.containerShadow,
       !hideDayNames && style.containerWrapper
     ];
-  }, [allowShadow, hideDayNames]);
+  }, [style, allowShadow, hideDayNames]);
 
   const containerStyle = useMemo(() => {
     return [style.week, style.weekCalendar];
-  }, []);
+  }, [style]);
 
   const getItemLayout = useCallback((_, index: number) => {
     return {

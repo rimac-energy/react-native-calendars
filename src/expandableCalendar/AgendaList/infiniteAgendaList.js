@@ -158,7 +158,7 @@ const InfiniteAgendaList = ({ theme, sections, scrollToNextEvent, avoidDateUpdat
     const _onMomentumScrollEnd = useCallback(() => {
         sectionScroll.current = false;
     }, []);
-    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
+    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [style, sectionStyle]);
     const _renderSectionHeader = useCallback((info) => {
         const title = info?.section?.title;
         if (renderSectionHeader) {

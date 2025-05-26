@@ -212,7 +212,7 @@ const InfiniteAgendaList = ({
     sectionScroll.current = false;
   }, []);
 
-  const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
+  const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [style, sectionStyle]);
 
   const _renderSectionHeader = useCallback((info: {section: SectionListData<any, DefaultSectionT>}) => {
     const title = info?.section?.title;
