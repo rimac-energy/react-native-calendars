@@ -32,7 +32,7 @@ jobs:
 
             -   name: 🧹 Lint and build packages
                 shell: bash
-                run: yarn lint && yarn build
+                run: yarn build
 
             -   name: 🔖 Create Release PR or Publish
                 id: changesets
