@@ -1,5 +1,11 @@
 # @rimac-technology/react-native-calendars
 
+## 2.0.0
+
+### Major Changes
+
+- [`3fccc9f`](https://github.com/rimac-energy/react-native-calendars/commit/3fccc9fa57fef7994b2ba030e9a71e03f7d2e01c) Thanks [@dgrahovac](https://github.com/dgrahovac)! - test
+
 ## 1.22.3
 
 ### Patch Changes
