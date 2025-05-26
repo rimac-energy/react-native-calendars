@@ -131,7 +131,7 @@ const ExpandableCalendar = forwardRef((props, ref) => {
     const header = useRef();
     const weekCalendarWrapper = useRef();
     /** Styles */
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const themeObject = Object.assign(headerStyleOverride, theme);
     const _wrapperStyles = useRef({ style: { height: startHeight } });
     const _headerStyles = { style: { top: isOpen ? -headerHeight : 0 } };
@@ -150,7 +150,7 @@ const ExpandableCalendar = forwardRef((props, ref) => {
         const leftPaddings = calendarStyle?.paddingLeft;
         const rightPaddings = calendarStyle?.paddingRight;
         return [
-            style.current.weekDayNames,
+            style.weekDayNames,
             {
                 paddingLeft: isNumber(leftPaddings) ? leftPaddings + 6 : DAY_NAMES_PADDING,
                 paddingRight: isNumber(rightPaddings) ? rightPaddings + 6 : DAY_NAMES_PADDING
@@ -158,13 +158,13 @@ const ExpandableCalendar = forwardRef((props, ref) => {
         ];
     }, [calendarStyle]);
     const animatedHeaderStyle = useMemo(() => {
-        return [style.current.header, { height: headerHeight, top: headerDeltaY.current }];
+        return [style.header, { height: headerHeight, top: headerDeltaY.current }];
     }, [headerDeltaY.current, headerHeight]);
     const weekCalendarStyle = useMemo(() => {
-        return [style.current.weekContainer, isOpen ? style.current.hidden : style.current.visible, { top: headerHeight }];
+        return [style.weekContainer, isOpen ? style.hidden : style.visible, { top: headerHeight }];
     }, [isOpen, headerHeight]);
     const containerStyle = useMemo(() => {
-        return [allowShadow && style.current.containerShadow, propsStyle, headerHeight === 0 && style.current.hidden, { overflow: 'hidden' }];
+        return [allowShadow && style.containerShadow, propsStyle, headerHeight === 0 && style.hidden, { overflow: 'hidden' }];
     }, [allowShadow, propsStyle, headerHeight]);
     const wrapperStyle = useMemo(() => {
         return { height: deltaY };
@@ -377,25 +377,25 @@ const ExpandableCalendar = forwardRef((props, ref) => {
         if (isFunction(renderArrow)) {
             return renderArrow(direction);
         }
-        return (<Image source={direction === 'right' ? rightArrowImageSource : leftArrowImageSource} style={style.current.arrowImage} testID={`${testID}.${direction}Arrow`}/>);
+        return (<Image source={direction === 'right' ? rightArrowImageSource : leftArrowImageSource} style={style.arrowImage} testID={`${testID}.${direction}Arrow`}/>);
     }, [renderArrow, rightArrowImageSource, leftArrowImageSource, testID]);
     const renderWeekDaysNames = () => {
         return (<View style={weekDaysStyle}>
-        <WeekDaysNames firstDay={firstDay} style={style.current.dayHeader}/>
+        <WeekDaysNames firstDay={firstDay} style={style.dayHeader}/>
       </View>);
     };
     const renderAnimatedHeader = () => {
         const monthYear = new XDate(date)?.toString('MMMM yyyy');
         return (<Animated.View ref={header} style={animatedHeaderStyle} pointerEvents={'none'}>
-        <Text allowFontScaling={false} style={style.current.headerTitle}>
+        <Text allowFontScaling={false} style={style.headerTitle}>
           {monthYear}
         </Text>
         {renderWeekDaysNames()}
       </Animated.View>);
     };
     const renderKnob = () => {
-        return (<View style={style.current.knobContainer} pointerEvents={'box-none'}>
-        <TouchableOpacity style={style.current.knob} testID={`${testID}.knob`} onPress={toggleCalendarPosition} hitSlop={knobHitSlop}/>
+        return (<View style={style.knobContainer} pointerEvents={'box-none'}>
+        <TouchableOpacity style={style.knob} testID={`${testID}.knob`} onPress={toggleCalendarPosition} hitSlop={knobHitSlop}/>
       </View>);
     };
     const renderWeekCalendar = () => {

@@ -23,7 +23,7 @@ import { AgendaSectionHeader } from './commons';
  */
 const InfiniteAgendaList = ({ theme, sections, scrollToNextEvent, avoidDateUpdates, onScroll, renderSectionHeader, sectionStyle, dayFormatter, dayFormat = 'dddd, MMM d', useMoment, markToday = true, infiniteListProps, renderItem, onEndReached, onEndReachedThreshold, ...others }) => {
     const { date, updateSource, setDate } = useContext(Context);
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const list = useRef();
     const _topSection = useRef(sections[0]?.title);
     const didScroll = useRef(false);
@@ -158,7 +158,7 @@ const InfiniteAgendaList = ({ theme, sections, scrollToNextEvent, avoidDateUpdat
     const _onMomentumScrollEnd = useCallback(() => {
         sectionScroll.current = false;
     }, []);
-    const headerTextStyle = useMemo(() => [style.current.sectionText, sectionStyle], [sectionStyle]);
+    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
     const _renderSectionHeader = useCallback((info) => {
         const title = info?.section?.title;
         if (renderSectionHeader) {
@@ -181,7 +181,7 @@ const InfiniteAgendaList = ({ theme, sections, scrollToNextEvent, avoidDateUpdat
             onEndReached({ distanceFromEnd: 0 }); // The RecyclerListView doesn't provide the distanceFromEnd, so we just pass 0
         }
     }, [onEndReached]);
-    return (<InfiniteList ref={list} renderItem={_renderItem} data={data} style={style.current.container} layoutProvider={layoutProvider} onScroll={_onScroll} onVisibleIndicesChanged={_onVisibleIndicesChanged} scrollViewProps={{ nestedScrollEnabled: true, ...others, onMomentumScrollEnd: _onMomentumScrollEnd }} onEndReached={_onEndReached} onEndReachedThreshold={onEndReachedThreshold} disableScrollOnDataChange renderFooter={infiniteListProps?.renderFooter}/>);
+    return (<InfiniteList ref={list} renderItem={_renderItem} data={data} style={style.container} layoutProvider={layoutProvider} onScroll={_onScroll} onVisibleIndicesChanged={_onVisibleIndicesChanged} scrollViewProps={{ nestedScrollEnabled: true, ...others, onMomentumScrollEnd: _onMomentumScrollEnd }} onEndReached={_onEndReached} onEndReachedThreshold={onEndReachedThreshold} disableScrollOnDataChange renderFooter={infiniteListProps?.renderFooter}/>);
 };
 export default InfiniteAgendaList;
 InfiniteAgendaList.displayName = 'InfiniteAgendaList';

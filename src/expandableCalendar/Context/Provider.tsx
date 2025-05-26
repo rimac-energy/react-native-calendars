@@ -1,7 +1,7 @@
 import {includes} from 'lodash';
 import XDate from 'xdate';
 
-import React, { useRef, useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
 import {View, ViewStyle, ViewProps, StyleProp} from 'react-native';
 
 import {sameMonth} from '../../dateutils';
@@ -62,7 +62,7 @@ const CalendarProvider = (props: CalendarContextProviderProps) => {
     timelineLeftInset = 72,
     children
   } = props;
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   const todayButton = useRef<TodayButtonImperativeMethods>();
   const prevDate = useRef(date);
   const currDate = useRef(date); // for setDate only to keep prevDate up to date
@@ -70,12 +70,9 @@ const CalendarProvider = (props: CalendarContextProviderProps) => {
   const [selectedDate, setSelectedDate] = useState(date);
   const [updateSource, setUpdateSource] = useState(UpdateSources.CALENDAR_INIT);
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   const wrapperStyle = useMemo(() => {
-    return [style.current.contextWrapper, propsStyle];
+    return [style.contextWrapper, propsStyle];
   }, [style, propsStyle]);
 
   useDidUpdate(() => {

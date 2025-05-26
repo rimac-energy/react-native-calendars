@@ -12,7 +12,7 @@ const NUMBER_OF_PAGES = 50;
 const CALENDAR_HEIGHT = 360;
 const CalendarList = (props) => {
     const { initialDate, horizontal, scrollRange = NUMBER_OF_PAGES, staticHeader, scrollViewProps, calendarProps, testID } = props;
-    const style = useRef(styleConstructor(calendarProps?.theme));
+    const style = styleConstructor(calendarProps?.theme);
     const list = useRef();
     const [items, setItems] = useState(getDatesArray(initialDate, scrollRange));
     const [positionIndex, setPositionIndex] = useState(scrollRange);
@@ -21,7 +21,7 @@ const CalendarList = (props) => {
     const shouldRenderStaticHeader = staticHeader && horizontal;
     const headerProps = extractHeaderProps(props);
     const staticHeaderStyle = useMemo(() => {
-        return [style.current.staticHeader, calendarProps?.headerStyle];
+        return [style.staticHeader, calendarProps?.headerStyle];
     }, [calendarProps?.headerStyle]);
     useEffect(() => {
         scrollToMonth(currentMonth);
@@ -111,7 +111,7 @@ const CalendarList = (props) => {
     };
     /** List */
     const listContainerStyle = useMemo(() => {
-        return [style.current.flatListContainer, { flex: horizontal ? undefined : 1 }];
+        return [style.flatListContainer, { flex: horizontal ? undefined : 1 }];
     }, [style, horizontal]);
     const scrollProps = useMemo(() => {
         return {
@@ -121,10 +121,10 @@ const CalendarList = (props) => {
         };
     }, [scrollViewProps]);
     const renderItem = useCallback((_type, item) => {
-        return (<Calendar {...calendarProps} {...headerProps} initialDate={item} disableMonthChange hideArrows={!horizontal} onPressArrowRight={scrollToNextMonth} onPressArrowLeft={scrollToPreviousMonth} hideExtraDays={calendarProps?.hideExtraDays || true} style={[style.current.calendar, calendarProps?.style]} headerStyle={horizontal ? calendarProps?.headerStyle : undefined} testID={`${testID}_${item}`}/>);
+        return (<Calendar {...calendarProps} {...headerProps} initialDate={item} disableMonthChange hideArrows={!horizontal} onPressArrowRight={scrollToNextMonth} onPressArrowLeft={scrollToPreviousMonth} hideExtraDays={calendarProps?.hideExtraDays || true} style={[style.calendar, calendarProps?.style]} headerStyle={horizontal ? calendarProps?.headerStyle : undefined} testID={`${testID}_${item}`}/>);
     }, [calendarProps, scrollToNextMonth, scrollToPreviousMonth]);
     return (<View style={listContainerStyle}>
-      <InfiniteList key="calendar-list" ref={list} data={items} renderItem={renderItem} reloadPages={reloadPages} onReachNearEdgeThreshold={Math.round(NUMBER_OF_PAGES * 0.4)} extendedState={calendarProps?.markedDates} isHorizontal={horizontal} style={style.current.container} initialPageIndex={scrollRange} positionIndex={positionIndex} pageHeight={CALENDAR_HEIGHT} pageWidth={constants.screenWidth} onPageChange={onPageChange} scrollViewProps={scrollProps}/>
+      <InfiniteList key="calendar-list" ref={list} data={items} renderItem={renderItem} reloadPages={reloadPages} onReachNearEdgeThreshold={Math.round(NUMBER_OF_PAGES * 0.4)} extendedState={calendarProps?.markedDates} isHorizontal={horizontal} style={style.container} initialPageIndex={scrollRange} positionIndex={positionIndex} pageHeight={CALENDAR_HEIGHT} pageWidth={constants.screenWidth} onPageChange={onPageChange} scrollViewProps={scrollProps}/>
       {renderStaticHeader()}
     </View>);
 };

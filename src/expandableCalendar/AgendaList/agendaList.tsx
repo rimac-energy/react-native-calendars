@@ -64,7 +64,7 @@ const AgendaList = forwardRef((props: AgendaListProps, ref: any) => {
 
   const {date, updateSource, setDate, setDisabled} = useContext(Context);
 
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   const list = useCombinedRefs(ref);
   const _topSection = useRef(sections[0]?.title);
   const didScroll = useRef(false);
@@ -78,10 +78,6 @@ const AgendaList = forwardRef((props: AgendaListProps, ref: any) => {
       }, 500);
     }
   }, []);
-
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   useDidUpdate(() => {
     // NOTE: on first init data should set first section to the current date!!!
@@ -196,7 +192,7 @@ const AgendaList = forwardRef((props: AgendaListProps, ref: any) => {
     onMomentumScrollEnd?.(event);
   }, [onMomentumScrollEnd, setDisabled]);
 
-  const headerTextStyle = useMemo(() => [style.current.sectionText, sectionStyle], [sectionStyle]);
+  const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
 
   const _onScrollToIndexFailed = useCallback((info: {index: number; highestMeasuredFrameIndex: number; averageItemLength: number}) => {
     if (onScrollToIndexFailed) {

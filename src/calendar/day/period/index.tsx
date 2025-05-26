@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {useCallback, useRef, useMemo, useEffect} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {TouchableWithoutFeedback, TouchableOpacity, Text, View, ViewStyle, ViewProps, TextStyle, StyleProp} from 'react-native';
 import {xdateToData} from '../../../interface';
 import {Theme, DayState, DateData} from '../../../types';
@@ -44,7 +44,7 @@ const PeriodDay = (props: PeriodDayProps) => {
     testID
   } = props;
   const dateData = date ? xdateToData(date) : undefined;
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   
   const isDisabled = typeof marking?.disabled !== 'undefined' ? marking.disabled : state === 'disabled';
   const isInactive = typeof marking?.inactive !== 'undefined' ? marking.inactive : state === 'inactive';
@@ -71,11 +71,11 @@ const PeriodDay = (props: PeriodDayProps) => {
       return defaultStyle;
     } else {
       if (marking.disabled) {
-        defaultStyle.textStyle = {color: style.current.disabledText.color};
+        defaultStyle.textStyle = {color: style.disabledText.color};
       } else if (marking.inactive) {
-        defaultStyle.textStyle = {color: style.current.inactiveText.color};
+        defaultStyle.textStyle = {color: style.inactiveText.color};
       } else if (marking.selected) {
-        defaultStyle.textStyle = {color: style.current.selectedText.color};
+        defaultStyle.textStyle = {color: style.selectedText.color};
       }
   
       if (marking.startingDay) {
@@ -103,10 +103,10 @@ const PeriodDay = (props: PeriodDayProps) => {
   }, [marking]);
 
   const containerStyle = useMemo(() => {
-    const containerStyle = [style.current.base];
+    const containerStyle = [style.base];
 
     if (isToday) {
-      containerStyle.push(style.current.today);
+      containerStyle.push(style.today);
     }
 
     if (marking) {
@@ -132,14 +132,14 @@ const PeriodDay = (props: PeriodDayProps) => {
   }, [marking, isDisabled, isInactive, isToday]);
 
   const textStyle = useMemo(() => {
-    const textStyle = [style.current.text];
+    const textStyle = [style.text];
 
     if (isDisabled) {
-      textStyle.push(style.current.disabledText);
+      textStyle.push(style.disabledText);
     } else if (isInactive) {
-      textStyle.push(style.current.inactiveText);
+      textStyle.push(style.inactiveText);
     } else if (isToday) {
-      textStyle.push(style.current.todayText);
+      textStyle.push(style.todayText);
     }
 
     if (marking) {
@@ -180,16 +180,13 @@ const PeriodDay = (props: PeriodDayProps) => {
     onLongPress?.(dateData);
   }, [onLongPress, date]);
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   const renderFillers = () => {
     if (marking) {
       return (
-        <View style={[style.current.fillers, fillerStyles.fillerStyle]}>
-          <View style={[style.current.leftFiller, fillerStyles.leftFillerStyle]}/>
-          <View style={[style.current.rightFiller, fillerStyles.rightFillerStyle]}/>
+        <View style={[style.fillers, fillerStyles.fillerStyle]}>
+          <View style={[style.leftFiller, fillerStyles.leftFillerStyle]}/>
+          <View style={[style.rightFiller, fillerStyles.rightFillerStyle]}/>
         </View>
       );
     }
@@ -233,7 +230,7 @@ const PeriodDay = (props: PeriodDayProps) => {
       accessibilityRole={isDisabled ? undefined : 'button'}
       accessibilityLabel={accessibilityLabel}
     >
-      <View style={style.current.container}>
+      <View style={style.container}>
         {renderFillers()}
         <View style={containerStyle}>
           {renderText()}

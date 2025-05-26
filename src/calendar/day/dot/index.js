@@ -1,22 +1,22 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import styleConstructor from './style';
 const Dot = ({ theme, marked, disabled, inactive, color, today, selected }) => {
-    const style = useRef(styleConstructor(theme));
-    const dotStyle = [style.current.dot];
+    const style = styleConstructor(theme);
+    const dotStyle = [style.dot];
     if (marked) {
-        dotStyle.push(style.current.visibleDot);
+        dotStyle.push(style.visibleDot);
         if (today) {
-            dotStyle.push(style.current.todayDot);
+            dotStyle.push(style.todayDot);
         }
         if (disabled) {
-            dotStyle.push(style.current.disabledDot);
+            dotStyle.push(style.disabledDot);
         }
         if (inactive) {
-            dotStyle.push(style.current.inactiveDot);
+            dotStyle.push(style.inactiveDot);
         }
         if (selected) {
-            dotStyle.push(style.current.selectedDot);
+            dotStyle.push(style.selectedDot);
         }
         if (color) {
             dotStyle.push({ backgroundColor: color });

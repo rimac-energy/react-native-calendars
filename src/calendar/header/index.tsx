@@ -1,7 +1,7 @@
 import includes from 'lodash/includes';
 import XDate from 'xdate';
 
-import React, {Fragment, ReactNode, useCallback, useMemo, forwardRef, useImperativeHandle, useRef, useEffect} from 'react';
+import React, {Fragment, ReactNode, useCallback, useMemo, forwardRef, useImperativeHandle} from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -117,15 +117,15 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
   const numberOfDaysCondition = useMemo(() => {
     return numberOfDays && numberOfDays > 1;
   }, [numberOfDays]);
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme)
   const headerStyle = useMemo(() => {
-    return [style.current.header, numberOfDaysCondition ? style.current.partialHeader : undefined];
+    return [style.header, numberOfDaysCondition ? style.partialHeader : undefined];
   }, [numberOfDaysCondition]);
   const partialWeekStyle = useMemo(() => {
-    return [style.current.partialWeek, {paddingLeft: timelineLeftInset}];
+    return [style.partialWeek, {paddingLeft: timelineLeftInset}];
   }, [timelineLeftInset]);
   const dayNamesStyle = useMemo(() => {
-    return [style.current.week, numberOfDaysCondition ? partialWeekStyle : undefined];
+    return [style.week, numberOfDaysCondition ? partialWeekStyle : undefined];
   }, [numberOfDaysCondition, partialWeekStyle]);
   const hitSlop: Insets | undefined = useMemo(
     () =>
@@ -181,15 +181,15 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     const dayNames = numberOfDaysCondition ? weekDaysNames.slice(0, numberOfDays) : weekDaysNames;
 
     return dayNames.map((day: string, index: number) => {
-      const dayStyle = [style.current.dayHeader];
+      const dayStyle = [style.dayHeader];
 
       if (includes(disabledDaysIndexes, index)) {
-        dayStyle.push(style.current.disabledDayHeader);
+        dayStyle.push(style.disabledDayHeader);
       }
 
       const dayTextAtIndex = `dayTextAtIndex${index}`;
-      if (style.current[dayTextAtIndex]) {
-        dayStyle.push(style.current[dayTextAtIndex]);
+      if (style[dayTextAtIndex]) {
+        dayStyle.push(style[dayTextAtIndex]);
       }
 
       return (
@@ -215,7 +215,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
       <Fragment>
         <Text
           allowFontScaling={false}
-          style={style.current.monthText}
+          style={style.monthText}
           testID={`${testID}.title`}
           {...webProps}
         >
@@ -241,12 +241,12 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
       <TouchableOpacity
         onPress={onPress}
         disabled={shouldDisable}
-        style={style.current.arrow}
+        style={style.arrow}
         hitSlop={hitSlop}
         testID={`${testID}.${arrowId}`}
         importantForAccessibility={'no-hide-descendants'}
       >
-        {renderArrow ? renderArrow(arrowDirection) : <Image source={imageSource} style={shouldDisable ? style.current.disabledArrowImage : style.current.arrowImage}/>}
+        {renderArrow ? renderArrow(arrowDirection) : <Image source={imageSource} style={shouldDisable ? style.disabledArrowImage : style.arrowImage}/>}
       </TouchableOpacity>
     );
   };
@@ -263,7 +263,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
   };
 
   const renderWeekNumbersSpace = () => {
-    return showWeekNumbers && <View style={style.current.dayHeader}/>;
+    return showWeekNumbers && <View style={style.dayHeader}/>;
   };
 
   const renderDayNames = () => {
@@ -281,10 +281,6 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     }
   };
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
-
   return (
     <View
       testID={testID}
@@ -299,7 +295,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     >
       <View style={headerStyle}>
         {_renderArrow('left')}
-        <View style={style.current.headerContainer} importantForAccessibility={'no-hide-descendants'}>
+        <View style={style.headerContainer} importantForAccessibility={'no-hide-descendants'}>
           {_renderHeader()}
           {renderIndicator()}
         </View>

@@ -50,7 +50,7 @@ const InfiniteAgendaList = ({
 }: Omit<AgendaListProps, 'viewOffset'>) => {
   const {date, updateSource, setDate} = useContext(Context);
 
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   const list = useRef<any>();
   const _topSection = useRef(sections[0]?.title);
   const didScroll = useRef(false);
@@ -58,9 +58,6 @@ const InfiniteAgendaList = ({
   const [data, setData] = useState([] as any[]);
   const dataRef = useRef(data);
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   useEffect(() => {
     const items = sections.reduce((acc: any, cur: any) => {
@@ -215,7 +212,7 @@ const InfiniteAgendaList = ({
     sectionScroll.current = false;
   }, []);
 
-  const headerTextStyle = useMemo(() => [style.current.sectionText, sectionStyle], [sectionStyle]);
+  const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
 
   const _renderSectionHeader = useCallback((info: {section: SectionListData<any, DefaultSectionT>}) => {
     const title = info?.section?.title;
@@ -251,7 +248,7 @@ const InfiniteAgendaList = ({
       ref={list}
       renderItem={_renderItem}
       data={data}
-      style={style.current.container}
+      style={style.container}
       layoutProvider={layoutProvider}
       onScroll={_onScroll}
       onVisibleIndicesChanged={_onVisibleIndicesChanged}

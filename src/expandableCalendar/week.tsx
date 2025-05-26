@@ -1,5 +1,5 @@
 import XDate from 'xdate';
-import React, { useRef, useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import {View} from 'react-native';
 import isEqual from 'lodash/isEqual';
 
@@ -37,11 +37,7 @@ const Week = React.memo((props: WeekProps) => {
     timelineLeftInset,
     testID
   } = props;
-  const style = useRef(styleConstructor(theme));
-
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
+  const style = styleConstructor(theme);
 
   const disableDaySelection = useMemo(() => {
     return !!numberOfDays && numberOfDays > 1;
@@ -54,7 +50,7 @@ const Week = React.memo((props: WeekProps) => {
   }, [firstDay]);
 
   const partialWeekStyle = useMemo(() => {
-    return [style.current.partialWeek, {paddingLeft: timelineLeftInset}];
+    return [style.partialWeek, {paddingLeft: timelineLeftInset}];
   }, [timelineLeftInset]);
 
   const dayProps = extractDayProps(props);
@@ -64,13 +60,13 @@ const Week = React.memo((props: WeekProps) => {
     // hide extra days
     if (current && hideExtraDays) {
       if (!sameMonth(day, currXdate)) {
-        return <View key={id} style={style.current.emptyDayContainer}/>;
+        return <View key={id} style={style.emptyDayContainer}/>;
       }
     }
     const dayString = toMarkingFormat(day);
 
     return (
-      <View style={style.current.dayContainer} key={id}>
+      <View style={style.dayContainer} key={id}>
         <Day
           {...dayProps}
           testID={`${testID}.day_${dayString}`}
@@ -102,8 +98,8 @@ const Week = React.memo((props: WeekProps) => {
   };
 
   return (
-    <View style={style.current.container} testID={`${testID}.week_${current}`}>
-      <View style={[style.current.week, numberOfDays > 1 ? partialWeekStyle : undefined, propsStyle]}>
+    <View style={style.container} testID={`${testID}.week_${current}`}>
+      <View style={[style.week, numberOfDays > 1 ? partialWeekStyle : undefined, propsStyle]}>
         {renderWeek()}
       </View>
     </View>

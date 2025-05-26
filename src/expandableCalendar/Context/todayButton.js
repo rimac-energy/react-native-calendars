@@ -19,7 +19,7 @@ const TodayButton = (props, ref) => {
     const { margin = 0, disabledOpacity = 0.3, theme, style: propsStyle } = props;
     const { date, setDate } = useContext(Context);
     const [disabled, setDisabled] = useState(false);
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const state = isToday(date) ? 0 : isPastDate(date) ? -1 : 1;
     const shouldShow = state !== 0;
     /** Effects */
@@ -91,10 +91,10 @@ const TodayButton = (props, ref) => {
     const onPress = useCallback(() => {
         setDate(getTodayDate(), UpdateSources.TODAY_PRESS);
     }, [setDate]);
-    return (<Animated.View style={[style.current.todayButtonContainer, { transform: [{ translateY: buttonY.current }] }]}>
-      <TouchableOpacity style={[style.current.todayButton, propsStyle]} onPress={onPress} disabled={disabled}>
-        <Animated.Image style={[style.current.todayButtonImage, { opacity: opacity.current }]} source={buttonIcon}/>
-        <Animated.Text allowFontScaling={false} style={[style.current.todayButtonText, { opacity: opacity.current }]}>
+    return (<Animated.View style={[style.todayButtonContainer, { transform: [{ translateY: buttonY.current }] }]}>
+      <TouchableOpacity style={[style.todayButton, propsStyle]} onPress={onPress} disabled={disabled}>
+        <Animated.Image style={[style.todayButtonImage, { opacity: opacity.current }]} source={buttonIcon}/>
+        <Animated.Text allowFontScaling={false} style={[style.todayButtonText, { opacity: opacity.current }]}>
           {today.current}
         </Animated.Text>
       </TouchableOpacity>

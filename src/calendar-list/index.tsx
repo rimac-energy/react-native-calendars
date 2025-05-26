@@ -120,7 +120,7 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
    */
   const shouldMeasureHeader = useRef(true);
 
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme)
   const list = useRef<any>();
   const range = useRef(horizontal ? 1 : 3);
   const initialDate = useRef(parseDate(current) || new XDate());
@@ -136,11 +136,11 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
   }, [pastScrollRange, futureScrollRange]);
 
   const staticHeaderStyle = useMemo(() => {
-    return [style.current.staticHeader, headerStyle];
+    return [style.staticHeader, headerStyle];
   }, [headerStyle]);
 
   const listStyle = useMemo(() => {
-    return [style.current.container, propsStyle];
+    return [style.container, propsStyle];
   }, [propsStyle]);
 
   const initialDateIndex = useMemo(() => {
@@ -155,9 +155,6 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
     });
   }, [items]);
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   useEffect(() => {
     if (current) {
@@ -316,7 +313,7 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
   ]);
 
   return (
-    <View style={style.current.flatListContainer} testID={testID}>
+    <View style={style.flatListContainer} testID={testID}>
       <FlatList
         ref={list}
         windowSize={shouldFixRTL ? pastScrollRange + futureScrollRange + 1 : undefined}

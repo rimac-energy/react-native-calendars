@@ -156,11 +156,8 @@ const Timeline = (props: TimelineProps) => {
   }, [pageDates, groupedEvents]);
   const scrollView = useRef<ScrollView>();
   const calendarHeight = useRef((end - start) * HOUR_BLOCK_HEIGHT);
-  const styles = useRef(styleConstructor(theme || props.styles, calendarHeight.current));
+  const styles = styleConstructor(theme || props.styles, calendarHeight.current)
 
-  useEffect(() => {
-    styles.current = styleConstructor(theme || props.styles, calendarHeight.current);
-  }, [theme, props.styles]);
 
   const {scrollEvents} = useTimelineOffset({onChangeOffset, scrollOffset, scrollViewRef: scrollView});
 
@@ -220,7 +217,7 @@ const Timeline = (props: TimelineProps) => {
           key={eventIndex}
           index={eventIndex}
           event={event}
-          styles={styles.current}
+          styles={styles}
           format24h={format24h}
           onPress={onEventPress}
           renderEvent={renderEvent}
@@ -230,7 +227,7 @@ const Timeline = (props: TimelineProps) => {
     });
 
     return (
-      <View pointerEvents={'box-none'}  style={[{marginLeft: dayIndex === 0 ? timelineLeftInset : undefined}, styles.current.eventsContainer]}>
+      <View pointerEvents={'box-none'}  style={[{marginLeft: dayIndex === 0 ? timelineLeftInset : undefined}, styles.eventsContainer]}>
         {events}
       </View>
     );
@@ -242,7 +239,7 @@ const Timeline = (props: TimelineProps) => {
     return (
       <React.Fragment key={dayIndex}>
         {renderEvents(dayIndex)}
-        {indexOfToday !== -1 && showNowIndicator && <NowIndicator width={width / numberOfDays} left={left} styles={styles.current}/>}
+        {indexOfToday !== -1 && showNowIndicator && <NowIndicator width={width / numberOfDays} left={left} styles={styles} />}
       </React.Fragment>
     );
   };
@@ -251,8 +248,8 @@ const Timeline = (props: TimelineProps) => {
     <ScrollView
       // @ts-expect-error
       ref={scrollView}
-      style={styles.current.container}
-      contentContainerStyle={[styles.current.contentStyle, {width: constants.screenWidth}]}
+      style={styles.container}
+      contentContainerStyle={[styles.contentStyle, { width: constants.screenWidth }]}
       showsVerticalScrollIndicator={false}
       {...scrollEvents}
       testID={testID}
@@ -262,7 +259,7 @@ const Timeline = (props: TimelineProps) => {
         end={end}
         date={pageDates[0]}
         format24h={format24h}
-        styles={styles.current}
+        styles={styles}
         unavailableHours={unavailableHours}
         unavailableHoursColor={unavailableHoursColor}
         onBackgroundLongPress={onBackgroundLongPress}

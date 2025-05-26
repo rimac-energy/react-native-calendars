@@ -1,5 +1,5 @@
 import filter from 'lodash/filter';
-import React, { useRef } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { extractDotProps } from '../../../componentUpdater';
 import styleConstructor from './style';
@@ -14,7 +14,7 @@ export var Markings;
 })(Markings || (Markings = {}));
 const Marking = (props) => {
     const { theme, type, dots, periods, selected, dotColor } = props;
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const getItems = (items) => {
         if (items && Array.isArray(items) && items.length > 0) {
             // Filter out items so that we process only those which have color property
@@ -29,9 +29,9 @@ const Marking = (props) => {
     const renderMarkingByType = () => {
         switch (type) {
             case Markings.MULTI_DOT:
-                return renderMultiMarkings(style.current.dots, dots);
+                return renderMultiMarkings(style.dots, dots);
             case Markings.MULTI_PERIOD:
-                return renderMultiMarkings(style.current.periods, periods);
+                return renderMultiMarkings(style.periods, periods);
             default:
                 return renderDot();
         }
@@ -42,16 +42,16 @@ const Marking = (props) => {
     const renderPeriod = (index, item) => {
         const { color, startingDay, endingDay } = item;
         const styles = [
-            style.current.period,
+            style.period,
             {
                 backgroundColor: color
             }
         ];
         if (startingDay) {
-            styles.push(style.current.startingDay);
+            styles.push(style.startingDay);
         }
         if (endingDay) {
-            styles.push(style.current.endingDay);
+            styles.push(style.endingDay);
         }
         return <View key={index} style={styles}/>;
     };

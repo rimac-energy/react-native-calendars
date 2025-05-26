@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import styleConstructor from './style';
 import {Theme} from '../../../types';
@@ -14,26 +14,26 @@ export interface DotProps {
 }
 
 const Dot = ({theme, marked, disabled, inactive, color, today, selected}: DotProps) => {
-  const style = useRef(styleConstructor(theme));
-  const dotStyle = [style.current.dot] as object[];
+  const style = styleConstructor(theme)
+  const dotStyle = [style.dot] as object[];
 
   if (marked) {
-    dotStyle.push(style.current.visibleDot);
+    dotStyle.push(style.visibleDot);
 
     if (today) {
-      dotStyle.push(style.current.todayDot);
+      dotStyle.push(style.todayDot);
     }
 
     if (disabled) {
-      dotStyle.push(style.current.disabledDot);
+      dotStyle.push(style.disabledDot);
     }
 
     if (inactive) {
-      dotStyle.push(style.current.inactiveDot);
+      dotStyle.push(style.inactiveDot);
     }
 
     if (selected) {
-      dotStyle.push(style.current.selectedDot);
+      dotStyle.push(style.selectedDot);
     }
 
     if (color) {
@@ -41,9 +41,6 @@ const Dot = ({theme, marked, disabled, inactive, color, today, selected}: DotPro
     }
   }
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   return <View style={dotStyle}/>;
 };

@@ -39,7 +39,8 @@ const CalendarList = (props: CalendarListProps) => {
     calendarProps,
     testID
   } = props;
-  const style = useRef(styleConstructor(calendarProps?.theme));
+
+  const style = styleConstructor(calendarProps?.theme)
   const list = useRef<ScrollView>();
   const [items, setItems] = useState<string[]>(getDatesArray(initialDate, scrollRange));
   const [positionIndex, setPositionIndex] = useState(scrollRange);
@@ -50,16 +51,13 @@ const CalendarList = (props: CalendarListProps) => {
   const shouldRenderStaticHeader = staticHeader && horizontal;
   const headerProps = extractHeaderProps(props);
   const staticHeaderStyle = useMemo(() => {
-    return [style.current.staticHeader, calendarProps?.headerStyle];
+    return [style.staticHeader, calendarProps?.headerStyle];
   }, [calendarProps?.headerStyle]);
 
   useEffect(() => {
     scrollToMonth(currentMonth);
   }, [currentMonth]);
 
-  useEffect(() => {
-    style.current = styleConstructor(calendarProps?.theme);
-  }, [calendarProps?.theme]);
 
   const getMonthIndex = useCallback((month?: XDate) => {
     if (!month) {
@@ -169,7 +167,7 @@ const CalendarList = (props: CalendarListProps) => {
   /** List */
 
   const listContainerStyle = useMemo(() => {
-    return [style.current.flatListContainer, {flex: horizontal ? undefined : 1}];
+    return [style.flatListContainer, { flex: horizontal ? undefined : 1 }];
   }, [style, horizontal]);
 
   const scrollProps = useMemo(() => {
@@ -191,7 +189,7 @@ const CalendarList = (props: CalendarListProps) => {
         onPressArrowRight={scrollToNextMonth}
         onPressArrowLeft={scrollToPreviousMonth} 
         hideExtraDays={calendarProps?.hideExtraDays || true}
-        style={[style.current.calendar, calendarProps?.style]}
+        style={[style.calendar, calendarProps?.style]}
         headerStyle={horizontal ? calendarProps?.headerStyle : undefined}
         testID={`${testID}_${item}`}
         // context={context}
@@ -210,7 +208,7 @@ const CalendarList = (props: CalendarListProps) => {
         onReachNearEdgeThreshold={Math.round(NUMBER_OF_PAGES * 0.4)}
         extendedState={calendarProps?.markedDates}
         isHorizontal={horizontal}
-        style={style.current.container}
+        style={style.container}
         initialPageIndex={scrollRange}
         positionIndex={positionIndex}
         pageHeight={CALENDAR_HEIGHT}

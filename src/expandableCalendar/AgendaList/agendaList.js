@@ -30,7 +30,7 @@ const viewabilityConfig = {
 const AgendaList = forwardRef((props, ref) => {
     const { theme, sections, scrollToNextEvent, viewOffset = 0, avoidDateUpdates, onScroll, onMomentumScrollBegin, onMomentumScrollEnd, onScrollToIndexFailed, renderSectionHeader, sectionStyle, keyExtractor, dayFormatter, dayFormat = 'dddd, MMM d', useMoment, markToday = true, onViewableItemsChanged } = props;
     const { date, updateSource, setDate, setDisabled } = useContext(Context);
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const list = useCombinedRefs(ref);
     const _topSection = useRef(sections[0]?.title);
     const didScroll = useRef(false);
@@ -146,7 +146,7 @@ const AgendaList = forwardRef((props, ref) => {
         setDisabled?.(false);
         onMomentumScrollEnd?.(event);
     }, [onMomentumScrollEnd, setDisabled]);
-    const headerTextStyle = useMemo(() => [style.current.sectionText, sectionStyle], [sectionStyle]);
+    const headerTextStyle = useMemo(() => [style.sectionText, sectionStyle], [sectionStyle]);
     const _onScrollToIndexFailed = useCallback((info) => {
         if (onScrollToIndexFailed) {
             onScrollToIndexFailed(info);

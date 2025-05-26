@@ -1,5 +1,5 @@
 import XDate from 'xdate';
-import React, { useCallback, useContext, useMemo, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import {FlatList, View, ViewToken} from 'react-native';
 import {sameWeek, onSameDateRange, getWeekDates} from '../../dateutils';
 import {toMarkingFormat} from '../../interface';
@@ -41,7 +41,7 @@ const WeekCalendar = (props: WeekCalendarProps) => {
   const {style: propsStyle, onDayPress, firstDay = 0, ...others} = extractCalendarProps(calendarListProps);
   const {date, numberOfDays, updateSource, setDate, timelineLeftInset} = context;
   const visibleWeek = useRef(date);
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   const items = useRef<string[]>(getDatesArray(current ?? date, firstDay, numberOfDays));
   const [listData, setListData] = useState(items.current);
   const changedItems = useRef(constants.isRTL);
@@ -56,10 +56,6 @@ const WeekCalendar = (props: WeekCalendarProps) => {
     visibleWeek.current = date;
     list?.current?.scrollToIndex({index: NUMBER_OF_PAGES, animated: false});
   }, [numberOfDays]);
-
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   useDidUpdate(() => {
     if (updateSource !== UpdateSources.WEEK_SCROLL) {
@@ -143,20 +139,20 @@ const WeekCalendar = (props: WeekCalendarProps) => {
     return (
       <WeekDaysNames
         firstDay={firstDay}
-        style={style.current.dayHeader}
+        style={style.dayHeader}
       />
     );
   },[firstDay]);
 
   const weekCalendarStyle = useMemo(() => {
     return [
-      allowShadow && style.current.containerShadow,
-      !hideDayNames && style.current.containerWrapper
+      allowShadow && style.containerShadow,
+      !hideDayNames && style.containerWrapper
     ];
   }, [allowShadow, hideDayNames]);
 
   const containerStyle = useMemo(() => {
-    return [style.current.week, style.current.weekCalendar];
+    return [style.week, style.weekCalendar];
   }, []);
 
   const getItemLayout = useCallback((_, index: number) => {
@@ -221,11 +217,11 @@ const WeekCalendar = (props: WeekCalendarProps) => {
           {renderWeekDaysNames}
         </View>
       )}
-      <View style={style.current.container}>
+      <View style={style.container}>
           <FlatList
             testID={`${testID}.list`}
             ref={list}
-            style={style.current.container}
+            style={style.container}
             data={listData}
             horizontal
             showsHorizontalScrollIndicator={false}

@@ -15,7 +15,7 @@ import TodayButton from './todayButton';
  */
 const CalendarProvider = (props) => {
     const { theme, date, onDateChanged, onMonthChange, disableAutoDaySelection, showTodayButton = false, disabledOpacity, todayBottomMargin, todayButtonStyle, style: propsStyle, numberOfDays, timelineLeftInset = 72, children } = props;
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const todayButton = useRef();
     const prevDate = useRef(date);
     const currDate = useRef(date); // for setDate only to keep prevDate up to date
@@ -23,7 +23,7 @@ const CalendarProvider = (props) => {
     const [selectedDate, setSelectedDate] = useState(date);
     const [updateSource, setUpdateSource] = useState(UpdateSources.CALENDAR_INIT);
     const wrapperStyle = useMemo(() => {
-        return [style.current.contextWrapper, propsStyle];
+        return [style.contextWrapper, propsStyle];
     }, [style, propsStyle]);
     useDidUpdate(() => {
         if (date && date !== currentDate) {

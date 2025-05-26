@@ -27,7 +27,7 @@ const Timeline = (props) => {
     }, [pageDates, groupedEvents]);
     const scrollView = useRef();
     const calendarHeight = useRef((end - start) * HOUR_BLOCK_HEIGHT);
-    const styles = useRef(styleConstructor(theme || props.styles, calendarHeight.current));
+    const styles = styleConstructor(theme || props.styles, calendarHeight.current);
     const { scrollEvents } = useTimelineOffset({ onChangeOffset, scrollOffset, scrollViewRef: scrollView });
     const width = useMemo(() => {
         return constants.screenWidth - timelineLeftInset;
@@ -75,9 +75,9 @@ const Timeline = (props) => {
     const renderEvents = (dayIndex) => {
         const events = packedEvents[dayIndex].map((event, eventIndex) => {
             const onEventPress = () => _onEventPress(dayIndex, eventIndex);
-            return (<EventBlock key={eventIndex} index={eventIndex} event={event} styles={styles.current} format24h={format24h} onPress={onEventPress} renderEvent={renderEvent} testID={`${testID}.event.${event.id}`}/>);
+            return (<EventBlock key={eventIndex} index={eventIndex} event={event} styles={styles} format24h={format24h} onPress={onEventPress} renderEvent={renderEvent} testID={`${testID}.event.${event.id}`}/>);
         });
-        return (<View pointerEvents={'box-none'} style={[{ marginLeft: dayIndex === 0 ? timelineLeftInset : undefined }, styles.current.eventsContainer]}>
+        return (<View pointerEvents={'box-none'} style={[{ marginLeft: dayIndex === 0 ? timelineLeftInset : undefined }, styles.eventsContainer]}>
         {events}
       </View>);
     };
@@ -86,13 +86,13 @@ const Timeline = (props) => {
         const left = timelineLeftInset + indexOfToday * width / numberOfDays;
         return (<React.Fragment key={dayIndex}>
         {renderEvents(dayIndex)}
-        {indexOfToday !== -1 && showNowIndicator && <NowIndicator width={width / numberOfDays} left={left} styles={styles.current}/>}
+        {indexOfToday !== -1 && showNowIndicator && <NowIndicator width={width / numberOfDays} left={left} styles={styles}/>}
       </React.Fragment>);
     };
     return (<ScrollView 
     // @ts-expect-error
-    ref={scrollView} style={styles.current.container} contentContainerStyle={[styles.current.contentStyle, { width: constants.screenWidth }]} showsVerticalScrollIndicator={false} {...scrollEvents} testID={testID}>
-      <TimelineHours start={start} end={end} date={pageDates[0]} format24h={format24h} styles={styles.current} unavailableHours={unavailableHours} unavailableHoursColor={unavailableHoursColor} onBackgroundLongPress={onBackgroundLongPress} onBackgroundLongPressOut={onBackgroundLongPressOut} width={width} numberOfDays={numberOfDays} timelineLeftInset={timelineLeftInset} testID={`${testID}.hours`}/>
+    ref={scrollView} style={styles.container} contentContainerStyle={[styles.contentStyle, { width: constants.screenWidth }]} showsVerticalScrollIndicator={false} {...scrollEvents} testID={testID}>
+      <TimelineHours start={start} end={end} date={pageDates[0]} format24h={format24h} styles={styles} unavailableHours={unavailableHours} unavailableHoursColor={unavailableHoursColor} onBackgroundLongPress={onBackgroundLongPress} onBackgroundLongPressOut={onBackgroundLongPressOut} width={width} numberOfDays={numberOfDays} timelineLeftInset={timelineLeftInset} testID={`${testID}.hours`}/>
       {times(numberOfDays, renderTimelineDay)}
     </ScrollView>);
 };

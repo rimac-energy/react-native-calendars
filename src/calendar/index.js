@@ -23,7 +23,7 @@ import BasicDay from './day/basic';
 const Calendar = (props) => {
     const { initialDate, current, theme, markedDates, minDate, maxDate, allowSelectionOutOfRange, onDayPress, onDayLongPress, onMonthChange, onVisibleMonthsChange, disableMonthChange, enableSwipeMonths, hideExtraDays, firstDay, showSixWeeks, displayLoadingIndicator, customHeader, headerStyle, accessibilityElementsHidden, importantForAccessibility, testID, style: propsStyle } = props;
     const [currentMonth, setCurrentMonth] = useState(current || initialDate ? parseDate(current || initialDate) : new XDate());
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const header = useRef();
     const weekNumberMarking = useRef({ disabled: true, disableTouchEvent: true });
     useEffect(() => {
@@ -89,7 +89,7 @@ const Calendar = (props) => {
         }
     }, [onSwipeLeft, onSwipeRight]);
     const renderWeekNumber = (weekNumber) => {
-        return (<View style={style.current.dayContainer} key={`week-container-${weekNumber}`}>
+        return (<View style={style.dayContainer} key={`week-container-${weekNumber}`}>
         <BasicDay key={`week-${weekNumber}`} marking={weekNumberMarking.current} 
         // state='disabled'
         theme={theme} testID={`${testID}.weekNumber_${weekNumber}`}>
@@ -99,12 +99,12 @@ const Calendar = (props) => {
     };
     const renderDay = (day, id) => {
         if (!sameMonth(day, currentMonth) && hideExtraDays) {
-            return <View key={id} style={style.current.emptyDayContainer}/>;
+            return <View key={id} style={style.emptyDayContainer}/>;
         }
         const dayProps = extractDayProps(props);
         const dateString = toMarkingFormat(day);
         const disableDaySelection = isEmpty(props.context);
-        return (<View style={style.current.dayContainer} key={id}>
+        return (<View style={style.dayContainer} key={id}>
         <Day {...dayProps} testID={`${testID}.day_${dateString}`} date={dateString} state={getState(day, currentMonth, props, disableDaySelection)} marking={markedDates?.[dateString]} onPress={_onDayPress} onLongPress={onLongPressDay}/>
       </View>);
     };
@@ -116,7 +116,7 @@ const Calendar = (props) => {
         if (props.showWeekNumbers) {
             week.unshift(renderWeekNumber(days[days.length - 1].getWeek()));
         }
-        return (<View style={style.current.week} key={id}>
+        return (<View style={style.week} key={id}>
         {week}
       </View>);
     };
@@ -127,7 +127,7 @@ const Calendar = (props) => {
         while (days.length) {
             weeks.push(renderWeek(days.splice(0, 7), weeks.length));
         }
-        return <View style={style.current.monthView}>{weeks}</View>;
+        return <View style={style.monthView}>{weeks}</View>;
     };
     const shouldDisplayIndicator = useMemo(() => {
         if (currentMonth) {
@@ -151,7 +151,7 @@ const Calendar = (props) => {
     };
     const gestureProps = enableSwipeMonths ? swipeProps : undefined;
     return (<GestureComponent {...gestureProps} testID={`${testID}.container`}>
-      <View style={[style.current.container, propsStyle]} testID={testID} accessibilityElementsHidden={accessibilityElementsHidden} // iOS
+      <View style={[style.container, propsStyle]} testID={testID} accessibilityElementsHidden={accessibilityElementsHidden} // iOS
      importantForAccessibility={importantForAccessibility} // Android
     >
         {renderHeader()}

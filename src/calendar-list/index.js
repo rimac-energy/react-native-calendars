@@ -55,7 +55,7 @@ const CalendarList = (props, ref) => {
      * so we use this ref to limit the header measurement to the first render
      */
     const shouldMeasureHeader = useRef(true);
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const list = useRef();
     const range = useRef(horizontal ? 1 : 3);
     const initialDate = useRef(parseDate(current) || new XDate());
@@ -69,10 +69,10 @@ const CalendarList = (props, ref) => {
         return months;
     }, [pastScrollRange, futureScrollRange]);
     const staticHeaderStyle = useMemo(() => {
-        return [style.current.staticHeader, headerStyle];
+        return [style.staticHeader, headerStyle];
     }, [headerStyle]);
     const listStyle = useMemo(() => {
-        return [style.current.container, propsStyle];
+        return [style.container, propsStyle];
     }, [propsStyle]);
     const initialDateIndex = useMemo(() => {
         return findIndex(items, function (item) {
@@ -202,7 +202,7 @@ const CalendarList = (props, ref) => {
             onViewableItemsChanged
         }
     ]);
-    return (<View style={style.current.flatListContainer} testID={testID}>
+    return (<View style={style.flatListContainer} testID={testID}>
       <FlatList ref={list} windowSize={shouldFixRTL ? pastScrollRange + futureScrollRange + 1 : undefined} style={listStyle} showsVerticalScrollIndicator={showScrollIndicator} showsHorizontalScrollIndicator={showScrollIndicator} data={items} renderItem={renderItem} getItemLayout={getItemLayout} initialNumToRender={range.current} initialScrollIndex={initialDateIndex} viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current} testID={`${testID}.list`} onLayout={onLayout} removeClippedSubviews={removeClippedSubviews} pagingEnabled={pagingEnabled} scrollEnabled={scrollEnabled} scrollsToTop={scrollsToTop} horizontal={horizontal} keyboardShouldPersistTaps={keyboardShouldPersistTaps} keyExtractor={keyExtractor} onEndReachedThreshold={onEndReachedThreshold} onEndReached={onEndReached} nestedScrollEnabled={nestedScrollEnabled} onMomentumScrollBegin={onMomentumScrollBegin} onMomentumScrollEnd={onMomentumScrollEnd} onScrollBeginDrag={onScrollBeginDrag} onScrollEndDrag={onScrollEndDrag} contentContainerStyle={contentContainerStyle}/>
       {renderStaticHeader()}
     </View>);

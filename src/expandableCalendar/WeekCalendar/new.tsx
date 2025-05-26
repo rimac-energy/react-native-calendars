@@ -27,7 +27,7 @@ const WeekCalendar = (props: WeekCalendarProps) => {
   const {current, firstDay = 0, markedDates, allowShadow = true, hideDayNames, theme, calendarWidth, calendarHeight = DEFAULT_PAGE_HEIGHT, testID} = props;
   const context = useContext(CalendarContext);
   const {date, updateSource} = context;
-  const style = useRef(styleConstructor(theme));
+  const style = styleConstructor(theme);
   const list = useRef();
   const [items, setItems] = useState(getDatesArray(current || date, firstDay, NUMBER_OF_PAGES));
 
@@ -42,9 +42,6 @@ const WeekCalendar = (props: WeekCalendarProps) => {
     return [{width: containerWidth}, props.style];
   }, [containerWidth, props.style]);
 
-  useEffect(() => {
-    style.current = styleConstructor(theme);
-  }, [theme]);
 
   useEffect(() => {
     if (updateSource !== UpdateSources.WEEK_SCROLL) {
@@ -105,11 +102,11 @@ const WeekCalendar = (props: WeekCalendarProps) => {
   return (
     <View
       testID={testID}
-      style={[allowShadow && style.current.containerShadow, !hideDayNames && style.current.containerWrapper]}
+      style={[allowShadow && style.containerShadow, !hideDayNames && style.containerWrapper]}
     >
       {!hideDayNames && (
-        <View style={[style.current.week, style.current.weekCalendar]}>
-          <WeekDaysNames firstDay={firstDay} style={style.current.dayHeader}/>
+        <View style={[style.week, style.weekCalendar]}>
+          <WeekDaysNames firstDay={firstDay} style={style.dayHeader}/>
         </View>
       )}
       <View>
@@ -122,7 +119,7 @@ const WeekCalendar = (props: WeekCalendarProps) => {
           reloadPages={reloadPages}
           onReachNearEdgeThreshold={Math.round(NUMBER_OF_PAGES * 0.4)}
           extendedState={extraData}
-          style={style.current.container}
+          style={style.container}
           initialPageIndex={NUMBER_OF_PAGES}
           pageHeight={calendarHeight}
           pageWidth={containerWidth}

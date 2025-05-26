@@ -1,5 +1,5 @@
 import XDate from 'xdate';
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { View } from 'react-native';
 import isEqual from 'lodash/isEqual';
 import { getPartialWeekDates, getWeekDates, sameMonth } from '../dateutils';
@@ -15,7 +15,7 @@ function arePropsEqual(prevProps, nextProps) {
 }
 const Week = React.memo((props) => {
     const { theme, current, firstDay, hideExtraDays, markedDates, onDayPress, onDayLongPress, style: propsStyle, numberOfDays = 1, timelineLeftInset, testID } = props;
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const disableDaySelection = useMemo(() => {
         return !!numberOfDays && numberOfDays > 1;
     }, [numberOfDays]);
@@ -25,7 +25,7 @@ const Week = React.memo((props) => {
         }
     }, [firstDay]);
     const partialWeekStyle = useMemo(() => {
-        return [style.current.partialWeek, { paddingLeft: timelineLeftInset }];
+        return [style.partialWeek, { paddingLeft: timelineLeftInset }];
     }, [timelineLeftInset]);
     const dayProps = extractDayProps(props);
     const currXdate = useMemo(() => parseDate(current), [current]);
@@ -33,11 +33,11 @@ const Week = React.memo((props) => {
         // hide extra days
         if (current && hideExtraDays) {
             if (!sameMonth(day, currXdate)) {
-                return <View key={id} style={style.current.emptyDayContainer}/>;
+                return <View key={id} style={style.emptyDayContainer}/>;
             }
         }
         const dayString = toMarkingFormat(day);
-        return (<View style={style.current.dayContainer} key={id}>
+        return (<View style={style.dayContainer} key={id}>
         <Day {...dayProps} testID={`${testID}.day_${dayString}`} date={dayString} state={getState(day, currXdate, props, disableDaySelection)} marking={disableDaySelection ? { ...markedDates?.[dayString], disableTouchEvent: true } : markedDates?.[dayString]} onPress={onDayPress} onLongPress={onDayLongPress}/>
       </View>);
     };
@@ -55,8 +55,8 @@ const Week = React.memo((props) => {
         }
         return week;
     };
-    return (<View style={style.current.container} testID={`${testID}.week_${current}`}>
-      <View style={[style.current.week, numberOfDays > 1 ? partialWeekStyle : undefined, propsStyle]}>
+    return (<View style={style.container} testID={`${testID}.week_${current}`}>
+      <View style={[style.week, numberOfDays > 1 ? partialWeekStyle : undefined, propsStyle]}>
         {renderWeek()}
       </View>
     </View>);

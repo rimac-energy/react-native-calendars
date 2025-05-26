@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Text } from 'react-native';
 import { toMarkingFormat } from '../interface';
 import { extractCalendarProps } from '../componentUpdater';
@@ -6,7 +6,7 @@ import styleConstructor from './style';
 import Calendar from '../calendar';
 const CalendarListItem = React.memo((props) => {
     const { item, theme, scrollToMonth, horizontal, calendarHeight, calendarWidth, style: propsStyle, headerStyle, onPressArrowLeft, onPressArrowRight, visible } = props;
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const calendarProps = extractCalendarProps(props);
     const dateString = toMarkingFormat(item);
     const calendarStyle = useMemo(() => {
@@ -15,12 +15,12 @@ const CalendarListItem = React.memo((props) => {
                 width: calendarWidth,
                 minHeight: calendarHeight
             },
-            style.current.calendar,
+            style.calendar,
             propsStyle
         ];
     }, [calendarWidth, calendarHeight, propsStyle]);
     const textStyle = useMemo(() => {
-        return [calendarStyle, style.current.placeholderText];
+        return [calendarStyle, style.placeholderText];
     }, [calendarStyle]);
     const _onPressArrowLeft = useCallback((method, month) => {
         const monthClone = month?.clone();

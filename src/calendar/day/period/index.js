@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useRef, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { TouchableWithoutFeedback, TouchableOpacity, Text, View } from 'react-native';
 import { xdateToData } from '../../../interface';
 import Marking from '../marking';
@@ -7,7 +7,7 @@ import styleConstructor from './style';
 const PeriodDay = (props) => {
     const { theme, date, onPress, onLongPress, marking, state, disableAllTouchEventsForDisabledDays, disableAllTouchEventsForInactiveDays, accessibilityLabel, children, testID } = props;
     const dateData = date ? xdateToData(date) : undefined;
-    const style = useRef(styleConstructor(theme));
+    const style = styleConstructor(theme);
     const isDisabled = typeof marking?.disabled !== 'undefined' ? marking.disabled : state === 'disabled';
     const isInactive = typeof marking?.inactive !== 'undefined' ? marking.inactive : state === 'inactive';
     const isToday = typeof marking?.today !== 'undefined' ? marking.today : state === 'today';
@@ -32,13 +32,13 @@ const PeriodDay = (props) => {
         }
         else {
             if (marking.disabled) {
-                defaultStyle.textStyle = { color: style.current.disabledText.color };
+                defaultStyle.textStyle = { color: style.disabledText.color };
             }
             else if (marking.inactive) {
-                defaultStyle.textStyle = { color: style.current.inactiveText.color };
+                defaultStyle.textStyle = { color: style.inactiveText.color };
             }
             else if (marking.selected) {
-                defaultStyle.textStyle = { color: style.current.selectedText.color };
+                defaultStyle.textStyle = { color: style.selectedText.color };
             }
             if (marking.startingDay) {
                 defaultStyle.startingDay = { backgroundColor: marking.color };
@@ -62,9 +62,9 @@ const PeriodDay = (props) => {
         }
     }, [marking]);
     const containerStyle = useMemo(() => {
-        const containerStyle = [style.current.base];
+        const containerStyle = [style.base];
         if (isToday) {
-            containerStyle.push(style.current.today);
+            containerStyle.push(style.today);
         }
         if (marking) {
             containerStyle.push({
@@ -87,15 +87,15 @@ const PeriodDay = (props) => {
         return containerStyle;
     }, [marking, isDisabled, isInactive, isToday]);
     const textStyle = useMemo(() => {
-        const textStyle = [style.current.text];
+        const textStyle = [style.text];
         if (isDisabled) {
-            textStyle.push(style.current.disabledText);
+            textStyle.push(style.disabledText);
         }
         else if (isInactive) {
-            textStyle.push(style.current.inactiveText);
+            textStyle.push(style.inactiveText);
         }
         else if (isToday) {
-            textStyle.push(style.current.todayText);
+            textStyle.push(style.todayText);
         }
         if (marking) {
             if (markingStyle.textStyle) {
@@ -131,9 +131,9 @@ const PeriodDay = (props) => {
     }, [onLongPress, date]);
     const renderFillers = () => {
         if (marking) {
-            return (<View style={[style.current.fillers, fillerStyles.fillerStyle]}>
-          <View style={[style.current.leftFiller, fillerStyles.leftFillerStyle]}/>
-          <View style={[style.current.rightFiller, fillerStyles.rightFillerStyle]}/>
+            return (<View style={[style.fillers, fillerStyles.fillerStyle]}>
+          <View style={[style.leftFiller, fillerStyles.leftFillerStyle]}/>
+          <View style={[style.rightFiller, fillerStyles.rightFillerStyle]}/>
         </View>);
         }
     };
@@ -150,7 +150,7 @@ const PeriodDay = (props) => {
     };
     const Component = marking ? TouchableWithoutFeedback : TouchableOpacity;
     return (<Component testID={testID} disabled={shouldDisableTouchEvent()} onPress={!shouldDisableTouchEvent() ? _onPress : undefined} onLongPress={!shouldDisableTouchEvent() ? _onLongPress : undefined} accessible accessibilityRole={isDisabled ? undefined : 'button'} accessibilityLabel={accessibilityLabel}>
-      <View style={style.current.container}>
+      <View style={style.container}>
         {renderFillers()}
         <View style={containerStyle}>
           {renderText()}
