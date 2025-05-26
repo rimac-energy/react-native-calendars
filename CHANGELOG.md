@@ -1,5 +1,11 @@
 # @rimac-technology/react-native-calendars
 
+## 1.22.2
+
+### Patch Changes
+
+- [`f7f7d52`](https://github.com/rimac-energy/react-native-calendars/commit/f7f7d5272c8b0393858babeae6d14578d70d6dbc) Thanks [@dgrahovac](https://github.com/dgrahovac)! - Re-render on theme prop change fix
+
 ## 1.22.1
 
 ### Patch Changes
