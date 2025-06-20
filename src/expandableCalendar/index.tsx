@@ -442,10 +442,6 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
     toggleAnimatedHeader(_isOpen);
   };
 
-  const resetWeekCalendarOpacity = (isOpen: boolean) => {
-    _weekCalendarStyles.style.opacity = isOpen ? 0 : 1;
-  };
-
   const toggleAnimatedHeader = (isOpen: boolean) => {
     headerDeltaY.current.setValue(Number(_headerStyles.style.top)); // set the start position for the animated value
     if (!horizontal) {
