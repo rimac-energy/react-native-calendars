@@ -1,5 +1,11 @@
 # @rimac-technology/react-native-calendars
 
+## 2.2.1
+
+### Patch Changes
+
+- [`959de0f`](https://github.com/rimac-energy/react-native-calendars/commit/959de0fa6c9ad4aaf38229410e50579ecb51995a) Thanks [@dgrahovac](https://github.com/dgrahovac)! - Expanding/rectracting calendar missaligned state fix
+
 ## 2.2.0
 
 ### Minor Changes
