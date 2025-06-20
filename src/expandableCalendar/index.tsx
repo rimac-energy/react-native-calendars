@@ -215,12 +215,21 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
     openHeight.current = getOpenHeight();
   } ,[headerHeight]);
 
-
   useEffect(() => {
     if (numberOfDays) {
         setPosition(Positions.CLOSED);
     }
-}, [numberOfDays]);
+  }, [numberOfDays]);
+
+  useEffect(() => {
+    if (position !== Positions.CLOSED && position !== Positions.OPEN) {
+      return; // Skip if position is in transition
+    }
+
+    const targetIsOpen = position === Positions.OPEN;
+    _weekCalendarStyles.style.opacity = targetIsOpen ? 0 : 1;
+    updateNativeStyles();
+  }, [position]);
 
   /** Components' refs */
 
@@ -240,14 +249,17 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
 
   const shouldHideArrows = !horizontal ? true : hideArrows || false;
 
-
   const updateNativeStyles = () => {
-    wrapper?.current?.setNativeProps(_wrapperStyles.current);
+    try {
+      wrapper?.current?.setNativeProps(_wrapperStyles.current);
 
-    if (!horizontal) {
-      header?.current?.setNativeProps(_headerStyles);
-    } else {
-      weekCalendarWrapper?.current?.setNativeProps(_weekCalendarStyles);
+      if (!horizontal) {
+        header?.current?.setNativeProps(_headerStyles);
+      } else {
+        weekCalendarWrapper?.current?.setNativeProps(_weekCalendarStyles);
+      }
+    } catch (error) {
+      console.warn('ExpandableCalendar: Error updating native styles:', error);
     }
   };
 
@@ -372,7 +384,7 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
       // vertical CalenderList header
       _headerStyles.style.top = Math.min(Math.max(-gestureState.dy, -headerHeight), 0);
     } else {
-      // horizontal Week view
+      // horizontal Week view - only update during pan gesture
       if (!isOpen) {
         _weekCalendarStyles.style.opacity = Math.min(1, Math.max(1 - gestureState.dy / 100, 0));
       } else if (gestureState.dy < 0) {
@@ -409,7 +421,11 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
     _height.current = toValue || newValue;
     _isOpen = _height.current >= threshold; // re-check after _height.current was set
 
-    resetWeekCalendarOpacity(_isOpen);
+    if (horizontal) {
+      _weekCalendarStyles.style.opacity = _isOpen ? 0 : 1;
+      weekCalendarWrapper?.current?.setNativeProps(_weekCalendarStyles);
+    }
+
     Animated.spring(deltaY, {
       toValue: _height.current,
       speed: SPEED,
@@ -417,14 +433,17 @@ const ExpandableCalendar = forwardRef<ExpandableCalendarRef, ExpandableCalendarP
       useNativeDriver: false
     }).start(() => {
       onCalendarToggled?.(_isOpen);
-      setPosition(() => _height.current === closedHeight ? Positions.CLOSED : Positions.OPEN);
+      const newPosition = _height.current === closedHeight ? Positions.CLOSED : Positions.OPEN;
+      setPosition(newPosition);
+
+      _wrapperStyles.current.style.height = _height.current;
     });
+
     toggleAnimatedHeader(_isOpen);
   };
 
-  const resetWeekCalendarOpacity = async (isOpen: boolean) => {
+  const resetWeekCalendarOpacity = (isOpen: boolean) => {
     _weekCalendarStyles.style.opacity = isOpen ? 0 : 1;
-    updateNativeStyles();
   };
 
   const toggleAnimatedHeader = (isOpen: boolean) => {
